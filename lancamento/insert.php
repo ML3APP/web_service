@@ -99,10 +99,6 @@ function getDateParcela($date, $index, $periodo){
 
 try{
 
-	ignore_user_abort(true);
-	set_time_limit(0);
-	ob_start();
-
 	$con->beginTransaction();
 
 	$str = "INSERT INTO tb_lancamento (
@@ -221,21 +217,13 @@ try{
 
 	$con->commit();
 
-	header('Connection: close');
-	header('Content-Length: '.ob_get_length());
-	ob_end_flush();
-	ob_flush();
-	flush();
-
 	if($sql_lancamento && !empty($anexo)){
 		if(move_uploaded_file($_FILES["file"]["tmp_name"], "../../upload/lancamento/".$anexo)){
 
 		}else{
 			//echo "deu ruim";
 		}
-	}	
-
-	
+	}		
 
 	 // $response = file_get_contents('http://localhost/ml3/www/web_service/parcela/crontabContaFixaMes.php');
 	$response = file_get_contents('http://35.198.54.48/web_service/parcela/crontabContaFixaMes.php');
