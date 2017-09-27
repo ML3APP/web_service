@@ -79,7 +79,7 @@ $dadosCompra['itemAmount1'] = $itemAmount1; // Decimal, com duas casas decimais 
 $dadosCompra['itemQuantity1'] = $itemQuantity1; // Um número inteiro maior ou igual a 1 e menor ou igual a 999
 $dadosCompra['reference'] = "REF072017"; // Livre, com o limite de 200 caracteres. Ex: REF072017 - mês e ano referentes a mensalidade
 
-$dadosCompra['notificationURL'] = "http://www.liraedu.com/ml3/web_service/respostaPagamento.php"; //sualoja.com.br/notifica.html\
+$dadosCompra['notificationURL'] = "http://www.35.198.54.48/web_service/respostaPagamento.php"; //sualoja.com.br/notifica.html\
 
 
 // dados do comprador

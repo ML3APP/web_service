@@ -238,7 +238,7 @@ try{
 	
 
 	 // $response = file_get_contents('http://localhost/ml3/www/web_service/parcela/crontabContaFixaMes.php');
-	$response = file_get_contents('http://liraedu.com/ml3/web_service/parcela/crontabContaFixaMes.php');
+	$response = file_get_contents('http://35.198.54.48/web_service/parcela/crontabContaFixaMes.php');
 
 }catch(Exception $e){
 	$con->rollback();
