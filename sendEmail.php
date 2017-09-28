@@ -7,7 +7,7 @@ class SendEmail{
 		$sql = Con::getCon()->query("SELECT notificar_email FROM tb_usuario WHERE id_usuario = $id_usuario");
 		$notificar_email = $sql->fetchAll();
 
-		print_r($id_usuario);
+		// print_r($id_usuario);
 
 		if($notificar_email[0]["notificar_email"] == 1){
 			return true;
@@ -18,6 +18,9 @@ class SendEmail{
 	}
 
 	public static function sendEmailDefault($emaildestinatario ,$assunto, $mensagem) {
+
+
+		echo($emaildestinatario ." |||| ".$assunto." |||| ". $mensagem );
 
 		$emailsender = "contato@noveltysolucoes.com.br";
 
@@ -94,7 +97,7 @@ class SendEmail{
 			</html>';
 
 
-			mail($emaildestinatario, $assunto, $body, $headers ,"-r".$emailsender);
+			echo "RES: ". mail($emaildestinatario, $assunto, $body, $headers ,"-r".$emailsender);
 		}
 
 		public static function sendEmailNovoUsuario($id_usuario) {
