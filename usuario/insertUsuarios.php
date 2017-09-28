@@ -112,7 +112,7 @@ try{
 
 		$lastId = $con->lastInsertId();
 
-		echo("( $lastId )");
+		// echo("( $lastId )");
 
 		array_push($ids, $lastId);
 
@@ -125,11 +125,11 @@ try{
 	if($sql){	
 
 		echo "deu_bom";
-				echo("(( $ids ))");
+				// echo("(( $ids ))");
 
 
 		for ($i=0; $i < COUNT($ids); $i++) { 
-			SendEmail::sendEmailNovoUsuario($ids[i]);
+			SendEmail::sendEmailNovoUsuario($ids[$i]);
 		}
 
 		// SendNotificacao::sendNotificacaoNovoPai($id_usuario, $id_filho);
