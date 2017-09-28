@@ -19,9 +19,6 @@ class SendEmail{
 
 	public static function sendEmailDefault($emaildestinatario ,$assunto, $mensagem) {
 
-
-		echo($emaildestinatario ." |||| ".$assunto." |||| ". $mensagem );
-
 		$emailsender = "contato@noveltysolucoes.com.br";
 
 		$headers  = "MIME-Version: 1.0\r\n";
@@ -96,8 +93,7 @@ class SendEmail{
 			</body>
 			</html>';
 
-
-			echo "RES: ". mail($emaildestinatario, $assunto, $body, $headers ,"-r".$emailsender);
+			mail($emaildestinatario, $assunto, $body, $headers ,"-r".$emailsender);
 		}
 
 		public static function sendEmailNovoUsuario($id_usuario) {
