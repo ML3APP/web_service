@@ -110,24 +110,27 @@ try{
 
 		$sql = $con->exec($str);
 
-		array_push($ids, $con->lastInsertId());
+		$lastId = $con->lastInsertId();
+
+		echo("( $lastId )");
+
+		array_push($ids, $lastId);
 
 
 	}
-	
+
 	$con->commit();
 
 
 	if($sql){	
-		$con->beginTransaction();
 
 		echo "deu_bom";
+				echo("(( $ids ))");
+
 
 		for ($i=0; $i < COUNT($ids); $i++) { 
 			SendEmail::sendEmailNovoUsuario($ids[i]);
 		}
-
-		$con->commit();
 
 		// SendNotificacao::sendNotificacaoNovoPai($id_usuario, $id_filho);
 	}else{
