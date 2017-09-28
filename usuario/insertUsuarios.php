@@ -43,15 +43,9 @@ try{
 		$cod_perfil			= $usuario['cod_perfil'];
 		$permissoes			= $usuario['permissoes'];
 
-		$senha				= $usuario['senha'];
+		$senha				= 123;
 
 		date_default_timezone_set('America/Sao_Paulo');
-
-		if(empty($senha)){
-			$date = new DateTime();
-			$senha = substr(sha1($date->getTimestamp()), 0, 4);
-		}
-		
 
 		$str = "INSERT INTO tb_usuario (
 
@@ -106,16 +100,13 @@ try{
 		'$senha',
 		1	)";
 
-		echo $str;
+		// echo $str;
 
 		$sql = $con->exec($str);
 
 		$lastId = $con->lastInsertId();
 
-		// echo("( $lastId )");
-
 		array_push($ids, $lastId);
-
 
 	}
 
@@ -125,8 +116,6 @@ try{
 	if($sql){	
 
 		echo "deu_bom";
-				// echo("(( $ids ))");
-
 
 		for ($i=0; $i < COUNT($ids); $i++) { 
 			SendEmail::sendEmailNovoUsuario($ids[$i]);
