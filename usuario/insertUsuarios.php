@@ -22,7 +22,6 @@ try{
 
 		$usuario = $usuarios[$i];
 
-		$avatar				= $usuario['avatar'];
 		$nome				= $usuario['nome'];
 		$email				= $usuario['email'];
 		$cpf				= $usuario['cpf'];
@@ -41,7 +40,7 @@ try{
 		$estado_civil		= $usuario['estado_civil'];
 		$cod_igreja			= $usuario['cod_igreja'];
 		$cod_perfil			= $usuario['cod_perfil'];
-		$permissoes			= $usuario['permissoes'];
+		$permissoes			= "{}";
 
 		$senha				= 123;
 
@@ -77,7 +76,7 @@ try{
 		VALUE (
 
 
-		'$avatar',
+		'default.png',
 		'$nome',
 		'$email',
 		'$cpf',

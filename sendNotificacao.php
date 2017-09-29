@@ -5,36 +5,50 @@
 
 class SendNotificacao{
 
-	public static function sendNotificacaoDefault($id_para, $mensagem, $id_de, $tipo, $id_post ) {
+	public static function sendNotificacaoDefault($id_para, $mensagem, $id_de, $tipo, $id_post, $titulo ) {
 
 		if($tipo != 'checkin_ativo' && $tipo != 'checkin_inativo'){
 
-			$insere_notificacao = Con::getCon()->exec("INSERT INTO tb_notificacao (mensagem, id_para, id_de, tipo, cod_post) VALUES ('$mensagem', $id_para, $id_de, '$tipo', $id_post)");
 
-			// echo("INSERT INTO tb_notificacao (mensagem, id_para, id_de, tipo, cod_post) VALUES ('$mensagem', $id_para, $id_de, '$tipo', $id_post)");
-			
+
+			$insere_notificacao = Con::getCon()->exec("INSERT INTO tb_notificacao (mensagem, id_para, id_de, tipo, cod_post, titulo) VALUES ('$mensagem', $id_para, $id_de, '$tipo', $id_post, '$titulo')");
+
+			echo("INSERT INTO tb_notificacao (mensagem, id_para, id_de, tipo, cod_post) VALUES ('$mensagem', $id_para, $id_de, '$tipo', $id_post)");
+						echo("\n");
+			echo("\n");
 		}
 
-		$sql_reg = Con::getCon()->query("SELECT reg_id, userDe.nome, userDe.avatar FROM tb_reg_id LEFT JOIN tb_usuario as userDe on(userDe.id_usuario = $id_de) WHERE tb_reg_id.id_usuario = $id_para");
+		$sql_reg = Con::getCon()->query("SELECT tb_igreja.logomarca, reg_id, userDe.nome, userDe.avatar FROM tb_reg_id LEFT JOIN tb_usuario as userDe on(userDe.id_usuario = $id_de) LEFT JOIN tb_igreja ON(userDe.cod_igreja = tb_igreja.id_igreja) WHERE tb_reg_id.id_usuario = $id_para");
 
 		$last_id = Con::getCon()->lastInsertId();
 
 		foreach ($sql_reg as $item) {
+			echo($item["reg_id"]);
+			echo("\n");
+			echo("\n");
 
-			define( 'API_ACCESS_KEY', 'AIzaSyAjW5RlwBZxdTKVW-AaYwWtH7D4Sf0TV64' );
+			define( 'API_ACCESS_KEY', 'AIzaSyBtArMEW7VHz5JPyfH2zC4jHchw0LfREds' );
 			$registrationIds = array( $item["reg_id"]);
+
+			if($tipo == "aviso"){
+				$image = 'http://35.198.54.48/upload/img/igreja/'.$item["logomarca"];
+			}else{
+				$titulo = $item["nome"];
+				$image = 'http://35.198.54.48/upload/avatar/'.$item["avatar"];
+			}
+			
 
 			$msg = array
 			(
 				'message' 	=> $mensagem,
-				'title'		=> $item["nome"],
+				'title'		=> $titulo,
 				'id_de'		=> $id_de,
 				'id_para'		=> $id_para,
 				'tipo'		=> $tipo,
 				'id_post'		=> $id_post,
 				'id_notificacao' => $last_id,
 				'vibrate'	=> 1,
-				'image' => 'http://35.199.182.199/upload/avatar/thumb/'.$item["avatar"],
+				'image' => $image,
 				'sound'		=> 1
 				);
 
@@ -152,6 +166,11 @@ class SendNotificacao{
 		SendNotificacao::sendNotificacaoDefault($id_amigo, "Aceitou sua solicitação de amizade", $id_usuario, 'aceitou_amizade', 0);
 
 
+	}
+
+	public static function sendNotificacaoAviso($id_para, $mensagem, $id_de, $tipo, $id_post, $titulo) {
+		SendNotificacao::runInBackground();
+		SendNotificacao::sendNotificacaoDefault($id_para, $mensagem, $id_de, $tipo, $id_post, $titulo);
 	}
 
 	public static function sendNotificacaoRejeitarAtividade($id_atividade_entregue) {

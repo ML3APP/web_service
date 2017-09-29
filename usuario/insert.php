@@ -33,6 +33,8 @@ $estado_civil			= $usuario['estado_civil'];
 $codigo_igreja			= $usuario['codigo_igreja'];
 $permissoes				= $usuario['permissoes'];
 $numero				    = $usuario['numero'];
+$data_convercao			= $usuario['data_convercao'];
+$data_batismo			= $usuario['data_batismo'];
 
 $senha					= $usuario['senha'];
 
@@ -55,7 +57,7 @@ if(empty($permissoes)){
 
 if(empty($responsavel)){	
 	$responsavel = 0;
-	$permissoes = '{"editar_sede":true,"congregacoes":true,"usuarios":true,"cargo":true,"membros":true,"categorias":true,"entradas_e_saidas":true,"planos":true,"resumo":true,"relatorios":true,"mensalidades_do_plano":true,"gerenciar_grupos":true,"gerenciar_eventos":true,"editar_igreja":true}';
+	$permissoes = '{"editar_sede":true,"congregacoes":true,"usuarios":true,"cargo":true,"membros":true,"categorias":true,"entradas_e_saidas":true,"planos":true,"resumo":true,"relatorios":true,"mensalidades_do_plano":true,"gerenciar_grupos":true,"gerenciar_eventos":true,"editar_igreja":true,"enviar_notificacao":true}';
 }
 
 if(empty($cod_igreja)){	
@@ -136,7 +138,9 @@ try{
 	notificar_email,
 	permissoes,
 	responsavel,
-	numero
+	numero,
+	data_convercao,
+	data_batismo
 	
 	) 
 
@@ -164,40 +168,42 @@ try{
 	1,
 	'$permissoes',
 	$responsavel,
-	'$numero'
+	'$numero',
+	'$data_convercao',
+	'$data_batismo'
 
-	)";
+)";
 
 	// echo $str;
 
-	$sql = $con->exec($str);
-	
-	$lastId = $con->lastInsertId();
+$sql = $con->exec($str);
 
-	
+$lastId = $con->lastInsertId();
+
+
+$con->commit();
+
+if($sql){	
+	$con->beginTransaction();
+
+	if($avatar != "default.png"){
+		if(move_uploaded_file($_FILES["file"]["tmp_name"], "../../upload/avatar/".$avatar)){
+			//echo "tudo certo";
+		}else{
+			//echo "deu ruim";
+		}
+	}
+
+	echo "deu_bom";
+
+	SendEmail::sendEmailNovoUsuario($lastId);
+
 	$con->commit();
 
-	if($sql){	
-		$con->beginTransaction();
-
-		if($avatar != "default.png"){
-			if(move_uploaded_file($_FILES["file"]["tmp_name"], "../../upload/avatar/".$avatar)){
-			//echo "tudo certo";
-			}else{
-			//echo "deu ruim";
-			}
-		}
-
-		echo "deu_bom";
-
-		SendEmail::sendEmailNovoUsuario($lastId);
-
-		$con->commit();
-
 		// SendNotificacao::sendNotificacaoNovoPai($id_usuario, $id_filho);
-	}else{
-		echo "deu_ruim";		
-	}
+}else{
+	echo "deu_ruim";		
+}
 
 }catch(Exception $e){
 	$con->rollback();

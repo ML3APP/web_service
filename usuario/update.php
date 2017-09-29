@@ -36,6 +36,8 @@ $estado_civil			= $usuario['estado_civil'];
 $permissoes				= json_encode($usuario['permissoes']);
 $numero				    = $usuario['numero'];
 $senha				    = $usuario['senha'];
+$data_convercao				    = $usuario['data_convercao'];
+$data_batismo				    = $usuario['data_batismo'];
 $tela_de_entrada				    = $usuario['tela_de_entrada'];
 
 
@@ -94,7 +96,9 @@ try{
 	permissoes = '$permissoes',
 	numero = '$numero',
 	tela_de_entrada = '$tela_de_entrada',
-	senha = '$senha'
+	senha = '$senha',
+	data_convercao = '$data_convercao',
+	data_batismo = '$data_batismo'
 
 	WHERE id_usuario = $id_usuario";
 
